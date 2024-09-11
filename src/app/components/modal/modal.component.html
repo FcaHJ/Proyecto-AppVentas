@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Datos Usuario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div id="modal-bottom">
+    <ion-item>
+      <ion-label>
+        <h4>Sector 1</h4>
+        <p>Precio: ${{precios.sector1}}</p>
+      </ion-label>
+      <div class="ion-text-right">
+        <ion-button (click)="decrease('sector1')">-</ion-button>
+        <ion-input readonly [value]="cantidad['sector1']"></ion-input>
+        <ion-button (click)="increase('sector1')">+</ion-button>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4>Sector 2</h4>  
+        <p>Precio: ${{precios.sector2}}</p>
+      </ion-label>
+      <div class="ion-text-right">
+        <ion-button (click)="decrease('sector2')">-</ion-button>
+        <ion-input readonly [value]="cantidad['sector2']"></ion-input>
+        <ion-button (click)="increase('sector2')">+</ion-button>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4>Sector 3</h4>  
+        <p>Precio: ${{precios.sector3}}</p>
+      </ion-label>
+      <div class="ion-text-right">
+        <ion-button (click)="decrease('sector3')">-</ion-button>
+        <ion-input readonly [value]="cantidad['sector3']"></ion-input>
+        <ion-button (click)="increase('sector3')">+</ion-button>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4>VIP</h4>  
+        <p>Precio: ${{precios.vip}}</p>
+      </ion-label>
+      <div class="ion-text-right">
+        <ion-button (click)="decrease('vip')">-</ion-button>
+        <ion-input readonly [value]="cantidad['vip']"></ion-input>
+        <ion-button (click)="increase('vip')">+</ion-button>
+      </div>
+    </ion-item>
+  </div>
+  <ion-button class="btn-modal" (click)="next()">Siguiente</ion-button>
+</ion-content>
