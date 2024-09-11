@@ -14,3 +14,21 @@ ion-card{
     width: 80%;
     padding: 1rem;
 }
+
+  
+@keyframes fadeInOut {
+    from, 20%, 50%, 80%, to {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-30px);
+      }
+      60% {
+        transform: translateY(-15px);
+      }
+  }
+  
+  .animation {
+    animation: bounce 1s ease infinite;
+  }
+  
