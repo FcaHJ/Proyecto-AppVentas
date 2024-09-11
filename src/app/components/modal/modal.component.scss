@@ -1,3 +1,38 @@
+.container{
+    margin: 2rem 1rem;
+}
+.control-cantidad {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los elementos */
+    justify-content: space-between; /* Espacia los elementos a los extremos del contenedor */
+    flex: 0.1; /* Permite que el contenedor ocupe el espacio disponible en el <ion-item> */
+  }
+  
+  .control-cantidad ion-input {
+    width: 30px; /* Ajusta el ancho del input según sea necesario */
+    text-align: center; /* Centra el texto dentro del input */
+  }
 .btn-modal{
-    margin: auto;
+    display: flex;
+    width: 20%;
+    margin: 1rem auto;
+}
+
+.container2{
+  text-align: center;
+  padding: 1rem;
+  width: 90%;
+  margin:auto;
+}
+ion-content ion-title{
+  margin-top: 2rem;
+}
+#data-bottom{
+  margin-top: 2rem;
+  text-align: left;
+}
+.btn-data{
+  display: flex;
+  width: 20%;
+  margin: 1rem auto;
 }

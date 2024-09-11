@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ModalController, ToastController } from '@ionic/angular';
+import { CalculoService } from 'src/app/api/calculo.service';
 
 @Component({
   selector: 'app-modal',
@@ -9,12 +10,17 @@ import { ModalController, ToastController } from '@ionic/angular';
 })
 export class ModalComponent  implements OnInit {
 
-  precios = {
-    sector1: 50000,
-    sector2: 62000,
-    sector3: 70000,
-    vip: 100000,
-  }
+  nombre!: string;
+  apellido!: string;
+  edad!: number;
+
+  total: number = 0;
+  desc: number = 0;
+  totalDesc: number = 0;
+
+  showData: boolean = false;
+
+  precios = this.calculoService.precios;
   cantidad: Record<string, number> = {
     sector1: 0,
     sector2: 0,
@@ -22,48 +28,35 @@ export class ModalComponent  implements OnInit {
     vip: 0,
   };
 
-  total: number = 0;
-
   constructor(
     private modalCtrl: ModalController, 
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
+    public calculoService: CalculoService 
   ) { }
 
-  // Calcular el precio total
-  calculateTotal() {
-    this.total = 
-      this.cantidad[2] * this.precios.sector1 +
-      this.cantidad[2] * this.precios.sector2 +
-      this.cantidad[2] * this.precios.sector3 +
-      this.cantidad[2] * this.precios.vip;
+  calcularTotal() {
+    const results = this.calculoService.calcularTotal(this.cantidad, this.edad);
+    this.total = results.total;
+    this.desc = results.desc;
+    this.totalDesc = results.totalDesc;
   }
-
   // Aumenta la cantidad de entradas
   increase(sector: string) {
     this.cantidad[sector]++;
-    this.calculateTotal();
+    this.calcularTotal();
   }
 
   // Disminuye la cantidad de entradas
   decrease(sector: string) {
     if (this.cantidad[sector] > 0) {
       this.cantidad[sector]--;
-      this.calculateTotal();
+      this.calcularTotal();
     }
   }
 
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
-  }
-
-  confirm() {
-    if (this.cantidad[1] !== 0) { 
-      this.router.navigate(['/datos']);
-      return this.modalCtrl.dismiss(this.generateMessage('a', 'success'), 'confirm');
-    }else{
-      return this.generateMessage('e', 'danger');
-    }
   }
 
   async generateMessage(message: string, color: string){
@@ -77,15 +70,27 @@ export class ModalComponent  implements OnInit {
     await toast.present();
   }
 
+  validateDatos(){
+    if (this.nombre && this.apellido && this.edad) {
+        this.generateMessage('Datos correctos', 'success');
+      }else{
+        this.generateMessage('Ingrese datos', 'danger');
+      }
+  } 
+
   next(){
-    if(this.cantidad[1] !== 0){
-      this.router.navigate(['/datos']);
-      return this.modalCtrl.dismiss(this.generateMessage('a', 'success'), 'confirm');
+    if (Object.values(this.cantidad).some(quantity => quantity > 0)) { 
+      this.calcularTotal();
+      this.showData = true;
     }else{
-      return this.generateMessage('Seleccione Entradas', 'danger');
+      this.generateMessage('Seleccione Entradas', 'danger');
     }
   }
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras?.state) {
+      this.edad = navigation.extras.state['edad'];
+  }
+  }
 }
